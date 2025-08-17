@@ -44,7 +44,7 @@ const About = () => {
             <div className="flex justify-center animate-enter">
               <div className="w-80 h-80 flex items-center justify-center">
                 <lottie-player
-                  src="https://lottie.host/76aa86c9-8b95-434c-b895-2718f70a3efe/wzYGtaXZzJ.json"
+                  src="https://lottie.host/a7abeca8-a653-4d38-b224-bebc0b5533a0/zJrOaTDCaT.lottie"
                   background="transparent"
                   speed="1"
                   style={{ width: "100%", height: "100%" }}
