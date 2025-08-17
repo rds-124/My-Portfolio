@@ -1,12 +1,42 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, BarChart3 } from "lucide-react";
 import { useRipple } from "@/hooks/useRipple";
+import { useVantaClouds } from "@/hooks/useVantaClouds";
+import { useEffect, useRef } from "react";
 
 const Hero = () => {
   const createRipple = useRipple();
+  const heroRef = useRef<HTMLElement>(null);
+  const { handleThemeChange, scriptsLoaded } = useVantaClouds(heroRef);
+
+  // Listen for theme changes
+  useEffect(() => {
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      handleThemeChange(isDark);
+    };
+
+    // Initial check
+    if (scriptsLoaded) {
+      checkTheme();
+    }
+
+    // Listen for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, [handleThemeChange, scriptsLoaded]);
 
   return (
-    <section id="hero" className="relative overflow-hidden min-h-[90vh] flex items-center">
+    <section 
+      id="hero" 
+      ref={heroRef}
+      className="relative overflow-hidden min-h-[90vh] flex items-center"
+    >
       {/* Clean minimal background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-background to-muted/20" />
       
