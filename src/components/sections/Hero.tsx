@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, BarChart3 } from "lucide-react";
+import { useRipple } from "@/hooks/useRipple";
 
 const Hero = () => {
+  const createRipple = useRipple();
+
   return (
     <section id="hero" className="relative overflow-hidden min-h-[90vh] flex items-center">
       {/* Clean minimal background */}
@@ -11,8 +14,8 @@ const Hero = () => {
         <div className="max-w-4xl">
           {/* Main heading */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] mb-6">
-            <span className="block text-foreground">Hi, I'm</span>
-            <span className="block text-gradient-shimmer">Rohith</span>
+            <span className="block text-foreground hero-text-slide-in">Hi, I'm</span>
+            <span className="block text-gradient-shimmer hero-text-scale-in">Rohith</span>
           </h1>
           
           {/* Tagline */}
@@ -26,7 +29,8 @@ const Hero = () => {
               asChild 
               variant="hero" 
               size="lg" 
-              className="group hover:scale-105 transition-all duration-300"
+              className="group hover:scale-105 transition-all duration-300 ripple-container"
+              onClick={createRipple}
             >
               <a href="#projects" className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5" />
@@ -40,8 +44,9 @@ const Hero = () => {
                 href="https://github.com/rds-124"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-muted/50 hover:bg-muted hover:scale-110 transition-all duration-300 group"
+                className="p-3 rounded-full bg-muted/50 hover:bg-muted hover:scale-110 transition-all duration-300 group ripple-container"
                 aria-label="GitHub Profile"
+                onClick={createRipple}
               >
                 <Github className="w-5 h-5 group-hover:text-primary transition-colors" />
               </a>
@@ -49,8 +54,9 @@ const Hero = () => {
                 href="https://linkedin.com/in/rohith124"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-muted/50 hover:bg-muted hover:scale-110 transition-all duration-300 group"
+                className="p-3 rounded-full bg-muted/50 hover:bg-muted hover:scale-110 transition-all duration-300 group ripple-container"
                 aria-label="LinkedIn Profile"
+                onClick={createRipple}
               >
                 <Linkedin className="w-5 h-5 group-hover:text-primary transition-colors" />
               </a>
