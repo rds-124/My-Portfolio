@@ -1,46 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, BarChart3 } from "lucide-react";
 import { useRipple } from "@/hooks/useRipple";
-import { useVantaClouds } from "@/hooks/useVantaClouds";
-import { useEffect, useRef } from "react";
 
 const Hero = () => {
   const createRipple = useRipple();
-  const heroRef = useRef<HTMLElement>(null);
-  const { handleThemeChange, scriptsLoaded } = useVantaClouds(heroRef);
-
-  // Listen for theme changes
-  useEffect(() => {
-    const checkTheme = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      handleThemeChange(isDark);
-    };
-
-    // Initial check
-    if (scriptsLoaded) {
-      checkTheme();
-    }
-
-    // Listen for theme changes
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    return () => observer.disconnect();
-  }, [handleThemeChange, scriptsLoaded]);
 
   return (
     <section 
-      id="hero" 
-      ref={heroRef}
+      id="hero-background" 
       className="relative overflow-hidden min-h-[90vh] flex items-center"
     >
-      {/* Clean minimal background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-background to-muted/20" />
-      
-      <div className="container max-w-6xl mx-auto px-6">
+      <div className="hero-content container max-w-6xl mx-auto px-6" style={{ position: 'relative', zIndex: 1 }}>
         <div className="max-w-4xl">
           {/* Main heading */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] mb-6">
