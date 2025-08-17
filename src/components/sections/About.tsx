@@ -1,3 +1,12 @@
+// Declare the lottie-player web component
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'lottie-player': any;
+    }
+  }
+}
+
 const About = () => {
   return (
     <section id="about" className="py-24">
@@ -34,10 +43,14 @@ const About = () => {
             
             <div className="flex justify-center animate-enter">
               <div className="w-80 h-80 flex items-center justify-center">
-                {/* Lottie animation will go here - please provide the data visualization animation link */}
-                <div className="w-full h-full bg-muted/20 rounded-lg flex items-center justify-center text-muted-foreground">
-                  Data Visualization Animation
-                </div>
+                <lottie-player
+                  src="https://lottie.host/76aa86c9-8b95-434c-b895-2718f70a3efe/wzYGtaXZzJ.json"
+                  background="transparent"
+                  speed="1"
+                  style={{ width: "100%", height: "100%" }}
+                  loop={true}
+                  autoplay={true}
+                />
               </div>
             </div>
           </div>
