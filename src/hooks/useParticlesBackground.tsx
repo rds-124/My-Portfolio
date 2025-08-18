@@ -46,7 +46,7 @@ const useParticlesBackground = () => {
     initParticles();
   }, [isDark, particlesInit]);
 
-  const particlesConfig = {
+  const darkThemeConfig = {
     background: {
       color: {
         value: "transparent",
@@ -57,7 +57,7 @@ const useParticlesBackground = () => {
         value: 100, 
         density: { 
           enable: true, 
-          value_area: 1000 
+          area: 1000 
         } 
       },
       color: { 
@@ -97,16 +97,10 @@ const useParticlesBackground = () => {
         enable: true,
         speed: 3,
         direction: "none" as const,
-        outModes: {
-          default: "out" as const
-        },
-        random: false,
-        straight: false,
-        bounce: false
+        outModes: "out" as const
       }
     },
     interactivity: {
-      detectsOn: "canvas" as const,
       events: {
         onHover: { 
           enable: true, 
@@ -134,6 +128,86 @@ const useParticlesBackground = () => {
     },
     detectRetina: true
   };
+
+  const lightThemeConfig = {
+    background: {
+      color: {
+        value: "transparent",
+      },
+    },
+    particles: {
+      number: { 
+        value: 80, 
+        density: { 
+          enable: true, 
+          area: 800 
+        } 
+      },
+      color: { 
+        value: ["#6a11cb", "#00c6ff", "#333333"] 
+      },
+      shape: { 
+        type: ["circle"] 
+      },
+      opacity: {
+        value: 0.5,
+        random: true,
+        animation: { 
+          enable: true, 
+          speed: 1, 
+          minimumValue: 0.2, 
+          sync: false 
+        }
+      },
+      size: {
+        value: 2.5,
+        random: true,
+        animation: { 
+          enable: false 
+        }
+      },
+      links: {
+        enable: true,
+        distance: 150,
+        color: "#6a11cb",
+        opacity: 0.25,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 2,
+        direction: "none" as const,
+        outModes: "out" as const
+      }
+    },
+    interactivity: {
+      events: {
+        onHover: { 
+          enable: true, 
+          mode: "repulse" 
+        },
+        onClick: { 
+          enable: true, 
+          mode: "push" 
+        },
+        resize: {
+          enable: true
+        }
+      },
+      modes: {
+        repulse: { 
+          distance: 200, 
+          duration: 0.4 
+        },
+        push: { 
+          quantity: 3 
+        }
+      }
+    },
+    detectRetina: true
+  };
+
+  const particlesConfig = isDark ? darkThemeConfig : lightThemeConfig;
 
   return {
     isDark,

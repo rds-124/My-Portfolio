@@ -5,24 +5,23 @@ import useParticlesBackground from "@/hooks/useParticlesBackground";
 
 const ParticlesBackground = () => {
   const { isDark, particlesConfig } = useParticlesBackground();
-
   const [init, setInit] = useState(false);
 
   // Initialize particles engine
   useEffect(() => {
-    if (isDark && !init) {
+    if (!init) {
       initParticlesEngine(async (engine) => {
         await loadSlim(engine);
       }).then(() => {
         setInit(true);
       });
     }
-  }, [isDark, init]);
+  }, [init]);
 
   const options = useMemo(() => particlesConfig, [particlesConfig]);
 
-  // Only render particles in dark mode and when initialized
-  if (!isDark || !init) {
+  // Only render particles when initialized
+  if (!init) {
     return null;
   }
 
