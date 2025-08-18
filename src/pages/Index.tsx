@@ -1,5 +1,6 @@
 import NavBar from "@/components/NavBar";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import ParticlesBackground from "@/components/ParticlesBackground";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Skills from "@/components/sections/Skills";
@@ -12,6 +13,7 @@ import Footer from "@/components/Footer";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <ParticlesBackground />
       <DarkModeToggle />
       <NavBar />
       <main className="pb-20 md:pb-16">
