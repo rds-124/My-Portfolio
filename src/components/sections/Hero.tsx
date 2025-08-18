@@ -10,7 +10,7 @@ const Hero = () => {
       {/* Clean minimal background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-background to-muted/20" />
       
-      <div className="container max-w-6xl mx-auto px-6">
+      <div className="container max-w-6xl mx-auto px-6 relative z-10">{}
         <div className="max-w-4xl">
           {/* Main heading */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] mb-6">

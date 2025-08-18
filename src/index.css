@@ -479,7 +479,26 @@ All colors MUST be HSL.
       0 0 25px rgba(0, 212, 255, 0.4),
       0 8px 32px rgba(138, 43, 226, 0.3),
       0 4px 20px rgba(0, 212, 255, 0.2);
-  }
+}
+
+/* Particles.js styling */
+#particles-background {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: -1 !important;
+  pointer-events: auto;
+}
+
+#particles-background canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
 }
 
 /* Additional brand tokens for Projects (HSL) */
