@@ -32,7 +32,7 @@ const useParticlesBackground = () => {
       if (isDark && !particlesInit) {
         try {
           // Dynamically import particles
-          const { loadSlim } = await import("tsparticles-slim");
+          const { loadSlim } = await import("@tsparticles/slim");
           
           // Initialize tsParticles
           await loadSlim(window.tsParticles);
@@ -69,24 +69,24 @@ const useParticlesBackground = () => {
       opacity: {
         value: 0.6,
         random: true,
-        anim: { 
+        animation: { 
           enable: true, 
           speed: 1, 
-          opacity_min: 0.2, 
+          minimumValue: 0.2, 
           sync: false 
         }
       },
       size: {
         value: 3,
         random: true,
-        anim: { 
+        animation: { 
           enable: true, 
           speed: 1.5, 
-          size_min: 1, 
+          minimumValue: 1, 
           sync: false 
         }
       },
-      line_linked: {
+      links: {
         enable: true,
         distance: 150,
         color: "#00c6ff",
@@ -97,38 +97,42 @@ const useParticlesBackground = () => {
         enable: true,
         speed: 3,
         direction: "none" as const,
-        out_mode: "out" as const,
+        outModes: {
+          default: "out" as const
+        },
         random: false,
         straight: false,
         bounce: false
       }
     },
     interactivity: {
-      detect_on: "canvas" as const,
+      detectsOn: "canvas" as const,
       events: {
-        onhover: { 
+        onHover: { 
           enable: true, 
           mode: "grab" 
         },
-        onclick: { 
+        onClick: { 
           enable: true, 
           mode: "push" 
         },
-        resize: true
+        resize: {
+          enable: true
+        }
       },
       modes: {
         grab: { 
           distance: 400, 
-          line_linked: { 
+          links: { 
             opacity: 1 
           } 
         },
         push: { 
-          particles_nb: 4 
+          quantity: 4 
         }
       }
     },
-    retina_detect: true
+    detectRetina: true
   };
 
   return {
