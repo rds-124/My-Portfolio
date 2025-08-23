@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Download, ArrowRight } from 'lucide-react';
+import SplitText from "@/components/SplitText";
 
-// --- 1. CSS for 3D transforms and new visual effects ---
+// --- 1. CSS updated for a wider "peek" animation ---
 const BookStyles = () => (
   <style>{`
     .perspective {
@@ -13,11 +14,14 @@ const BookStyles = () => (
     .rotate-y-minus-80 {
       transform: rotateY(-80deg);
     }
+    /* New class for the subtle peek animation, now opens more */
+    .rotate-y-minus-35 {
+      transform: rotateY(-35deg);
+    }
     .book-cover {
       transform-origin: left;
-      transition: transform 0.6s ease-in-out;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Smoother transition */
     }
-    /* Subtle noise texture for the cover */
     .cover-texture {
       background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAPElEQVR42mN8//59fxgYgOEBDEYfMBo/MBo/MBo/MBo/MBo/MBo/MBo/MBo/MBo/MBo/MBo/sPz/fxQYAPW4WkGj9b2NAAAAAElFTSuQmCC');
       background-blend-mode: overlay;
@@ -27,14 +31,57 @@ const BookStyles = () => (
 
 const Resume = () => {
   const [isBookOpen, setIsBookOpen] = useState(false);
+  // --- New state to control the initial peek animation ---
+  const [isPeeking, setIsPeeking] = useState(false);
+  const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+  const bookRef = useRef(null);
+
+  // --- Effect for the one-time peek animation on scroll ---
+  useEffect(() => {
+    if (!bookRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimatedIn) {
+          // Start the peek animation
+          setTimeout(() => setIsPeeking(true), 300);
+
+          // Close the peek and mark animation as complete
+          setTimeout(() => {
+            setIsPeeking(false);
+            setHasAnimatedIn(true);
+          }, 1500); // Peek lasts for 1.2 seconds
+
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.6 } // Trigger when 60% of the book is visible
+    );
+
+    observer.observe(bookRef.current);
+
+    return () => observer.disconnect();
+  }, [hasAnimatedIn]);
+
 
   const handleToggleBook = () => {
-    if (window.innerWidth < 768) { // Only allow click toggle on mobile
-        setIsBookOpen(!isBookOpen);
+    if (window.innerWidth < 768 && hasAnimatedIn) {
+      setIsBookOpen(!isBookOpen);
+    }
+  };
+  
+  const handleMouseEnter = () => {
+    if (window.innerWidth >= 768 && hasAnimatedIn) {
+      setIsBookOpen(true);
     }
   };
 
-  // Get current month and year for the "Last Updated" text
+  const handleMouseLeave = () => {
+    if (window.innerWidth >= 768 && hasAnimatedIn) {
+      setIsBookOpen(false);
+    }
+  };
+
   const currentDate = new Date();
   const month = currentDate.toLocaleString('default', { month: 'long' });
   const year = currentDate.getFullYear();
@@ -45,17 +92,22 @@ const Resume = () => {
       <section id="resume" className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">My Resume</h2>
+            <SplitText
+              text="My Resume"
+              className="font-display text-4xl md:text-5xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
             <p className="text-lg text-muted-foreground mt-2">Open the cover to view and download my professional summary.</p>
           </div>
 
           <div className="flex justify-center">
-            {/* The main container for the 3D book effect */}
             <div
+              ref={bookRef} // Attach ref for the observer
               className="group perspective w-[240px] h-[320px] md:w-[280px] md:h-[380px] cursor-pointer"
               onClick={handleToggleBook}
-              onMouseEnter={() => window.innerWidth >= 768 && setIsBookOpen(true)}
-              onMouseLeave={() => window.innerWidth >= 768 && setIsBookOpen(false)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <div className={`relative w-full h-full preserve-3d transition-transform duration-500 ${isBookOpen ? 'md:scale-105' : ''}`}>
                 
@@ -66,7 +118,7 @@ const Resume = () => {
                              border border-white/20 shadow-inner"
                 >
                   <a
-                    href="/pdf/Rohith_D.pdf" // Your resume link
+                    href="/pdf/Rohith_D.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
@@ -74,10 +126,9 @@ const Resume = () => {
                                relative group/resume"
                     aria-label="View full resume in a new tab"
                   >
-                    {/* Page Shadow Effect */}
                     <div className="absolute inset-0 shadow-[inset_10px_0px_15px_-10px_rgba(0,0,0,0.4)] dark:shadow-[inset_10px_0px_15px_-10px_rgba(0,0,0,0.8)] pointer-events-none"></div>
                     <img
-                      src="/images/resume.png" // Your resume image path
+                      src="/images/resume.png"
                       alt="Preview of Rohith D's Resume"
                       className="w-full h-full object-cover object-top"
                     />
@@ -90,17 +141,15 @@ const Resume = () => {
                              bg-white/20 dark:bg-black/40 backdrop-blur-lg 
                              border border-white/20 shadow-2xl
                              cover-texture bg-opacity-50
-                             ${isBookOpen ? 'rotate-y-minus-80' : ''}`}
+                             ${isBookOpen ? 'rotate-y-minus-80' : isPeeking ? 'rotate-y-minus-35' : ''}`}
                 >
                   <div className="flex-grow flex flex-col justify-center items-center">
                     <h3 className="text-2xl font-bold text-black dark:text-white">My Resume</h3>
-                    {/* Updated text colors for better readability */}
                     <p className="text-md text-black dark:text-gray-200 mt-2 hidden md:block">Hover to Open</p>
                     <p className="text-md text-black dark:text-gray-200 mt-2 md:hidden">Tap to Open</p>
                   </div>
                   
                   <div className="absolute bottom-6 w-full px-4">
-                    {/* Updated text colors for better readability */}
                     <div className="flex items-center justify-center gap-2 text-xs text-black dark:text-gray-300">
                       <span>View Inside</span>
                       <ArrowRight size={14} />

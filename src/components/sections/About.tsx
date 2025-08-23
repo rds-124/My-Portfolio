@@ -1,3 +1,9 @@
+import React from "react";
+
+// Corrected the import path to use the project's alias
+import SplitText from "@/components/SplitText";
+import SectionOverlay from "@/components/SectionOverlay";
+
 // Declare the lottie-player web component
 declare global {
   namespace JSX {
@@ -6,8 +12,6 @@ declare global {
     }
   }
 }
-
-import SectionOverlay from "@/components/SectionOverlay";
 
 const About = () => {
   return (
@@ -19,9 +23,13 @@ const About = () => {
           
           {/* Text Section */}
           <div className="animate-enter space-y-6">
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
-              About Me
-            </h2>
+            {/* Replaced the h2 tag with the SplitText component */}
+            <SplitText
+              text="About Me"
+              className="font-display text-4xl md:text-5xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
             
             <p className="text-muted-foreground text-lg leading-relaxed">
               I'm a passionate data analyst who transforms complex datasets into clear, actionable insights. 

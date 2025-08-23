@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { Linkedin, Github, Mail, Instagram, Copy, Check } from 'lucide-react';
+import SplitText from "@/components/SplitText";
 
-// --- 1. Reusable Social Link Component (Updated) ---
-// It now accepts an optional gradientClassName for special styling like Instagram.
-const SocialLink = ({ href, tooltip, brandColor, gradientClassName, children }) => {
+// --- 1. Define the types for the component's props ---
+interface SocialLinkProps {
+  href: string;
+  tooltip: string;
+  children: React.ReactNode;
+  brandColor?: string; // Optional: used for solid backgrounds
+  gradientClassName?: string; // Optional: used for gradients
+}
+
+// --- 2. The SocialLink component now uses the types ---
+const SocialLink: React.FC<SocialLinkProps> = ({ href, tooltip, brandColor, gradientClassName, children }) => {
   const isMailLink = href.startsWith('mailto:');
   
   const baseClasses = `group flex justify-center p-4 rounded-xl drop-shadow-lg text-white font-semibold 
-                     transition-all duration-500 
-                     hover:-translate-y-2 hover:rounded-[50%]`;
+                       transition-all duration-500 
+                       hover:-translate-y-2 hover:rounded-[50%]`;
 
   const finalClassName = gradientClassName ? `${baseClasses} ${gradientClassName}` : baseClasses;
 
@@ -18,7 +27,8 @@ const SocialLink = ({ href, tooltip, brandColor, gradientClassName, children }) 
       target={isMailLink ? '_self' : '_blank'}
       rel={isMailLink ? undefined : 'noopener noreferrer'}
       className={finalClassName}
-      style={{ backgroundColor: brandColor }}
+      // This style is now smarter: it only applies a background color if there's no gradient.
+      style={{ backgroundColor: !gradientClassName ? brandColor : undefined }}
     >
       {children}
       <span 
@@ -32,64 +42,71 @@ const SocialLink = ({ href, tooltip, brandColor, gradientClassName, children }) 
   );
 };
 
-// --- 2. The New Contact Component ---
+// --- 3. The main Contact component ---
 const Contact = () => {
   const [copyText, setCopyText] = useState('Copy');
   const email = 'rohithsd124@gmail.com';
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(email).then(() => {
-      setCopyText('Copied!');
-      setTimeout(() => {
-        setCopyText('Copy');
-      }, 2000); // Reset text after 2 seconds
-    }).catch(err => {
-      console.error('Failed to copy text: ', err);
-    });
+    const textArea = document.createElement("textarea");
+    textArea.value = email;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        setCopyText('Copied!');
+        setTimeout(() => setCopyText('Copy'), 2000);
+    } catch (err) {
+        console.error('Failed to copy text: ', err);
+    }
+    document.body.removeChild(textArea);
   };
 
   return (
     <section id="contact" className="relative py-24 bg-transparent">
       <div className="container mx-auto max-w-4xl relative z-10">
         <div className="text-center mb-12">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">Let's Connect</h2>
+            <SplitText
+              text="Let's Connect"
+              className="font-display text-4xl md:text-5xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
           <p className="text-lg text-muted-foreground mt-2">I'm always open to discussing new projects and opportunities.</p>
         </div>
 
-        {/* --- Animated Social Links with Official Brand Colors --- */}
         <div className="flex items-center justify-center gap-6 md:gap-8">
           <SocialLink 
             href="https://linkedin.com/in/rohith124" 
             tooltip="LinkedIn" 
-            brandColor="#0077B5" // Official LinkedIn Blue
+            brandColor="#0077B5"
           >
             <Linkedin className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
           <SocialLink 
             href="https://github.com/rds-124" 
             tooltip="GitHub" 
-            brandColor="#181717" // Official GitHub Black
+            brandColor="#181717"
           >
             <Github className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
           <SocialLink 
             href={`mailto:${email}`}
             tooltip="Email" 
-            brandColor="#DB4437" // Official Google Red for Gmail
+            brandColor="#DB4437"
           >
             <Mail className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
           <SocialLink 
             href="https://www.instagram.com/rds_124/" 
             tooltip="Instagram" 
-            // Official Instagram Gradient
             gradientClassName="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400"
           >
             <Instagram className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
         </div>
 
-        {/* --- Plain Email with Copy Button --- */}
         <div className="mt-12 text-center">
           <p className="text-muted-foreground mb-4">Or reach me directly:</p>
           <div 

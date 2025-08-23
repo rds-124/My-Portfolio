@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Moon } from 'lucide-react'; // Moon icon for the light theme header
+import { Moon } from 'lucide-react';
 
-// --- 1. CSS for the typing animation ---
+// --- CSS for the typing animation ---
 const TerminalStyles = () => (
   <style>{`
     .typing-cursor {
@@ -21,11 +21,20 @@ const TerminalStyles = () => (
   `}</style>
 );
 
+// --- Array of quotes updated with the two new lines ---
+const quotes = [
+  "When I asked Shiva for a flower, He answered with the rain that promised a garden.",
+  "Pour your soul into the effort, and release your attachment to the fruit it bears.",
+  "Fate is fickle, but effort is a constant.",
+  "True progress requires moving beyond the good to pursue the great.",
+  "Distinctive thinking is the path to rare achievements."
+];
 
 const AnimatedTerminal = ({ isDark }) => {
+  const [quoteIndex, setQuoteIndex] = useState(0);
   const [typedText, setTypedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
-  const fullText = "Perfection may not be attainable, but if we chase perfection, we can catch excellence.";
 
   // --- State and Refs for Dragging ---
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -48,15 +57,34 @@ const AnimatedTerminal = ({ isDark }) => {
     return () => clearInterval(timer);
   }, []);
   
-  // Effect for the typing animation
+  // --- Typing/deleting carousel animation logic ---
   useEffect(() => {
-    if (typedText.length < fullText.length) {
-      const timer = setTimeout(() => {
-        setTypedText(fullText.substring(0, typedText.length + 1));
+    const currentQuote = quotes[quoteIndex];
+    let timer;
+
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setTypedText(currentQuote.substring(0, typedText.length - 1));
+      }, 30);
+    } 
+    else {
+      timer = setTimeout(() => {
+        setTypedText(currentQuote.substring(0, typedText.length + 1));
       }, 50);
-      return () => clearTimeout(timer);
     }
-  }, [typedText, fullText]);
+
+    if (!isDeleting && typedText === currentQuote) {
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2500);
+    } 
+    else if (isDeleting && typedText === '') {
+      setIsDeleting(false);
+      setQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+    }
+
+    return () => clearTimeout(timer);
+  }, [typedText, isDeleting, quoteIndex]);
 
   // --- Drag and Drop Logic ---
   const handleMouseDown = (e) => {
@@ -77,44 +105,41 @@ const AnimatedTerminal = ({ isDark }) => {
         y: e.clientY - dragOffset.current.y
       });
     };
-
     const handleMouseUp = () => {
       setIsDragging(false);
       document.body.style.userSelect = 'auto';
     };
-
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     }
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging]);
 
+  const isTypingFinished = typedText === quotes[quoteIndex] && !isDeleting;
 
   return (
     <>
       <TerminalStyles />
       <div 
         ref={terminalRef}
-        // --- THEME FIX: Swapping background and border colors based on the isDark prop ---
         className={`w-full max-w-2xl mx-auto rounded-xl overflow-hidden
-                   ${isDark ? 'bg-black/30 border-white/10' : 'bg-gray-100/70 border-gray-300'}
-                   backdrop-blur-xl shadow-2xl shadow-purple-500/10 relative`}
+                    ${isDark ? 'bg-black/30 border-white/10' : 'bg-gray-100/70 border-gray-300'}
+                    backdrop-blur-xl shadow-2xl shadow-purple-500/10 relative`}
         style={{ 
           transform: `translate(${position.x}px, ${position.y}px)`,
           zIndex: isDragging ? 1000 : 10,
           touchAction: 'none'
         }}
       >
-        {/* --- Terminal Header (The Drag Handle) --- */}
+        {/* --- Terminal Header --- */}
         <div 
             className={`h-9 flex items-center justify-between px-4 
-                       ${isDark ? 'bg-gray-800/50 border-white/10' : 'bg-gray-200/80 border-gray-300'}
-                       border-b cursor-grab active:cursor-grabbing`}
+                        ${isDark ? 'bg-gray-800/50 border-white/10' : 'bg-gray-200/80 border-gray-300'}
+                        border-b cursor-grab active:cursor-grabbing`}
             onMouseDown={handleMouseDown}
         >
           <div className="flex items-center gap-2">
@@ -123,7 +148,6 @@ const AnimatedTerminal = ({ isDark }) => {
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
           <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Terminal</p>
-          {/* --- THEME FIX: Show Moon icon in light mode --- */}
           <div className="w-4 h-4">
             {!isDark && <Moon size={16} className="text-gray-600" />}
           </div>
@@ -131,17 +155,17 @@ const AnimatedTerminal = ({ isDark }) => {
 
         {/* --- Terminal Body --- */}
         <div className="p-4 font-mono text-sm min-h-[150px]">
-          {/* --- THEME FIX: Adjusting text colors for light mode --- */}
           <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Last login: {currentTime} on console</p>
           <div className="mt-4 flex gap-2">
             <span className="text-green-500 dark:text-green-400">user@machine:~$</span>
             <p className={`${isDark ? 'text-white' : 'text-gray-800'}`}>Rohith</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-start">
             <span className="text-blue-500 dark:text-blue-400">bot@gpt:~$</span>
             <p className={`${isDark ? 'text-white' : 'text-gray-800'}`}>
               {typedText}
-              {typedText.length < fullText.length && <span className="typing-cursor"></span>}
+              {!isTypingFinished && <span className="typing-cursor"></span>}
+              {isTypingFinished && quoteIndex === 0 && <span className="ml-2 text-purple-400">🔱</span>}
             </p>
           </div>
         </div>

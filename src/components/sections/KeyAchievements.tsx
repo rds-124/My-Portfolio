@@ -1,12 +1,16 @@
 import React from 'react';
-import { motion } from 'framer-motion'; // 1. Import motion
+import { motion } from 'framer-motion';
 import { ShieldCheck, BarChartHorizontal, Rocket } from 'lucide-react';
+
+// Import the SplitText component
+import SplitText from "@/components/SplitText";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
+// The AchievementCard component remains the same
 const AchievementCard = ({ icon, value, label, description }) => (
   <div 
     className="group h-full flex flex-col rounded-2xl p-6 text-gray-800 dark:text-white overflow-hidden
@@ -39,20 +43,24 @@ const KeyAchievements = () => {
     <section id="achievements" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="container mx-auto max-w-5xl relative z-10">
         <div className="text-center mb-12">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">Key Achievements</h2>
+          {/* Replaced the h2 tag with the SplitText component */}
+          <SplitText
+            text="Key Achievements"
+            className="font-display text-4xl md:text-5xl font-bold text-foreground"
+            splitType="chars"
+            delay={50}
+          />
           <p className="text-lg text-muted-foreground mt-2">Quantifiable results from my project work.</p>
         </div>
 
-        {/* 2. Add motion.div wrapper for staggering */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ staggerChildren: 0.2 }} // This creates the staggered effect
+          transition={{ staggerChildren: 0.2 }}
         >
           {achievements.map((item, index) => (
-            // 3. Each card is now a motion component
             <motion.div key={index} variants={cardVariants}>
               <AchievementCard {...item} />
             </motion.div>

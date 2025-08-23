@@ -1,4 +1,8 @@
+import React from 'react';
 import { Laptop, BarChart3, Code2, Boxes, Brain, Wrench, Globe } from "lucide-react";
+
+// Import the SplitText component
+import SplitText from "@/components/SplitText";
 
 const categories = [
   {
@@ -86,14 +90,19 @@ const Skills = () => {
     >
       <div className="container max-w-4xl">
         <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">Tech Stack</h2>
+            {/* Replaced the h2 tag with the SplitText component */}
+            <SplitText
+              text="Tech Stack"
+              className="font-display text-4xl md:text-5xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
             <p className="text-lg text-muted-foreground mt-2">The tools and technologies I use to bring data to life.</p>
         </div>
 
         <div className="grid gap-10 md:gap-12">
           {categories.map(({ title, Icon, items }) => (
             <article key={title} aria-labelledby={`heading-${title.replace(/\s+/g, "-").toLowerCase()}`}>
-              {/* Subtitle size increased */}
               <h3
                 id={`heading-${title.replace(/\s+/g, "-").toLowerCase()}`}
                 className="text-xl md:text-2xl font-semibold flex items-center justify-center gap-3 mb-5"
@@ -107,7 +116,6 @@ const Skills = () => {
                   <span
                     key={name}
                     role="listitem"
-                    // Badge size increased by adjusting padding and font size
                     className={`inline-flex items-center justify-center rounded-full font-bold text-base py-2 px-4 text-[hsl(var(--badge-foreground))] shadow-sm transition-transform hover:-translate-y-0.5 ${brandClassMap[name]}`}
                   >
                     {name}

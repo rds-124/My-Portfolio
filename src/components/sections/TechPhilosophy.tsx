@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Import the SplitText component
+import SplitText from "@/components/SplitText";
+
 // --- 1. Data array updated to use image paths ---
 const techItemsData = [
     {
@@ -48,7 +51,13 @@ const TechPhilosophy = () => {
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col gap-4 text-center lg:text-left">
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-2">My Tech Stack Philosophy</h2>
+            {/* Replaced the h2 tag with the SplitText component */}
+            <SplitText
+              text="My Tech Stack Philosophy"
+              className="font-display text-4xl md:text-5xl font-bold text-foreground mb-2"
+              splitType="words"
+              delay={80}
+            />
             <p className="text-lg text-muted-foreground leading-relaxed">
               I believe in a pragmatic approach: using the right tool for the right task. My process is built on a foundation of robust data manipulation and compelling visual storytelling.
             </p>

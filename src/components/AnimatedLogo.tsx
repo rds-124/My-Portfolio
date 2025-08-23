@@ -50,7 +50,6 @@ const LogoStyles = () => (
     }
 
     .logo-button:hover span {
-      /* In dark mode, text becomes white. In light mode, it becomes black. */
       color: hsl(var(--foreground));
     }
 
@@ -59,8 +58,6 @@ const LogoStyles = () => (
       position: absolute;
       width: 0;
       height: 100%;
-      /* THE FIX IS HERE: The background now uses the theme's foreground color. */
-      /* This will be white in dark mode and black in light mode. */
       background-color: hsl(var(--foreground));
       left: 50%;
       top: 50%;
@@ -78,9 +75,12 @@ const AnimatedLogo = () => {
   return (
     <>
       <LogoStyles />
-      <button className="logo-button">
-        <span>RDS</span>
-      </button>
+      {/* --- RESPONSIVE FIX: Wrapper to scale the logo on mobile --- */}
+      <div className="transform scale-75 md:scale-100 transition-transform duration-300">
+        <button className="logo-button">
+          <span>RDS</span>
+        </button>
+      </div>
     </>
   );
 }

@@ -21,7 +21,8 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <div className="fixed top-5 right-5 z-50">
+    // --- RESPONSIVE FIX: Wrapper to scale and reposition the toggle on mobile ---
+    <div className="fixed top-5 right-2 md:right-5 z-50 transform scale-[.60] md:scale-100 transition-transform duration-300">
       <label className="switch">
         <input
           id="input"
