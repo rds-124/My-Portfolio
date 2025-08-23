@@ -500,7 +500,29 @@ All colors MUST be HSL.
   height: 100% !important;
 }
 }
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  /* This controls the width of the cards on mobile */
+  flex: 0 0 90%; 
+  min-width: 0;
+  padding-left: 1rem; /* This creates the space between cards */
+}
 
+#projects {
+  scroll-margin-top: 80px; /* adjust based on navbar height */
+}
+
+/* On medium screens and larger, the cards will have a fixed width */
+@media (min-width: 768px) {
+  .embla__slide {
+    flex: 0 0 400px;
+  }
+}
 /* Additional brand tokens for Projects (HSL) */
 :root {
   --brand-eda: 188 60% 40%;

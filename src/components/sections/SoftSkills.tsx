@@ -11,9 +11,9 @@ const softSkills = [
 
 const SoftSkills = () => {
   return (
-    <section id="soft-skills" className="py-24">
+    <section id="soft-skills" className="relative py-24 bg-transparent">
       <div className="container">
-        <h2 className="font-display text-3xl md:text-4xl font-semibold mb-8">Soft Skills</h2>
+        <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-8">Soft Skills</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {softSkills.map(({ name, Icon }) => (
             <div

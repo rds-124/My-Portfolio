@@ -82,31 +82,33 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="py-24 bg-[hsl(var(--sidebar-background))] text-[hsl(var(--sidebar-foreground))]"
+      className="relative py-24 bg-transparent text-[hsl(var(--sidebar-foreground))]"
     >
-      <div className="container">
-        <h2 className="font-display text-3xl md:text-4xl font-semibold mb-10 flex items-center gap-3">
-          <Laptop className="h-7 w-7" aria-hidden />
-          <span>Tech Stack</span>
-        </h2>
+      <div className="container max-w-4xl">
+        <div className="text-center mb-12">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">Tech Stack</h2>
+            <p className="text-lg text-muted-foreground mt-2">The tools and technologies I use to bring data to life.</p>
+        </div>
 
         <div className="grid gap-10 md:gap-12">
           {categories.map(({ title, Icon, items }) => (
             <article key={title} aria-labelledby={`heading-${title.replace(/\s+/g, "-").toLowerCase()}`}>
+              {/* Subtitle size increased */}
               <h3
                 id={`heading-${title.replace(/\s+/g, "-").toLowerCase()}`}
-                className="text-lg md:text-xl font-semibold flex items-center gap-2 mb-4"
+                className="text-xl md:text-2xl font-semibold flex items-center justify-center gap-3 mb-5"
               >
-                <Icon className="h-5 w-5" aria-hidden />
+                <Icon className="h-6 w-6" aria-hidden />
                 <span>{title}</span>
               </h3>
 
-              <div className="flex flex-wrap gap-2" role="list">
+              <div className="flex flex-wrap justify-center gap-3" role="list">
                 {items.map((name) => (
                   <span
                     key={name}
                     role="listitem"
-                    className={`badge-chip ${brandClassMap[name]}`}
+                    // Badge size increased by adjusting padding and font size
+                    className={`inline-flex items-center justify-center rounded-full font-bold text-base py-2 px-4 text-[hsl(var(--badge-foreground))] shadow-sm transition-transform hover:-translate-y-0.5 ${brandClassMap[name]}`}
                   >
                     {name}
                   </span>

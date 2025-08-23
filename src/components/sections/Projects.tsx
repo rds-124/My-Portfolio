@@ -1,70 +1,96 @@
-import { ExternalLink, Github, BarChart3, LineChart, PieChart, Hand, ShieldCheck, Camera } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from 'react';
+import {
+  ExternalLink,
+  Github,
+  BarChart3,
+  LineChart,
+  PieChart,
+  Hand,
+  ShieldCheck,
+  Camera,
+} from "lucide-react";
+import SectionOverlay from "@/components/SectionOverlay";
+import useEmblaCarousel from "embla-carousel-react";
 
+// --- 1. Project Data ---
 const projects = [
   {
     title: "Zomato Demand & Delivery Dashboard",
     description:
-      "Interactive Power BI dashboard analyzing 50k+ Bangalore restaurant listings. Cleaned and explored data, visualized KPIs (avg cost, ratings, online orders) with dynamic filters.",
+      "Interactive Power BI dashboard analyzing 50k+ Bangalore restaurant listings. Cleaned and explored data, visualized KPIs with dynamic filters.",
     tech: ["Power BI", "Python", "EDA"],
     live: "",
-    repo: "",
+    repo: "https://github.com/rds-124",
     icon: "bar",
+    image: "/images/zomato.png",
   },
   {
     title: "Indian Startup Failure Analysis",
     description:
-      "EDA on 800+ Indian startups to find failure patterns: sector-wise risk and lifespan distribution. Interactive Power BI dashboard with Excel, DAX, and Power Query.",
+      "EDA on 800+ Indian startups to find failure patterns. Interactive Power BI dashboard with Excel, DAX, and Power Query.",
     tech: ["Python", "Power BI", "Pandas"],
     live: "",
     repo: "https://github.com/rds-124/Indian-Startup-Failure-Analysis",
     icon: "line",
+    image: "/images/isfa.png",
   },
   {
     title: "Power BI Dashboards",
     description:
-      "Collection of BI dashboards to visualize KPIs and trends: Supermarket Store (inventory & stock tracking) and HR Analysis (hiring & attrition).",
+      "Collection of BI dashboards to visualize KPIs and trends for Supermarket Store (inventory) and HR (hiring & attrition).",
     tech: ["Power BI", "DAX", "Excel"],
     live: "",
     repo: "https://github.com/rds-124/PowerBI-Dashboards",
     icon: "pie",
+    image: "/images/pbi.png",
   },
   {
-    title: "SIGNSPEAK: Gestures to Speech & Translation",
+    title: "SIGNSPEAK: Gestures to Speech",
     description:
       "Gesture-to-speech system using MediaPipe and NLP for sign language translation with real-time speech/text output.",
     tech: ["Python", "MediaPipe", "NLP"],
     live: "",
     repo: "https://github.com/rds-124/SIGNSPEAK",
     icon: "hand",
+    image: "/images/sign.png",
   },
   {
-    title: "Fraud Detection for Financial Transactions",
+    title: "Fraud Detection for Transactions",
     description:
-      "Trained a Random Forest on 6M+ transactions to detect fraud (F1 99%). Engineered features (e.g., deltaOrig), addressed class imbalance, and surfaced top fraud signals to inform risk strategies.",
+      "Trained a Random Forest on 6M+ transactions to detect fraud (F1 99%). Engineered features and surfaced top fraud signals.",
     tech: ["Python", "Random Forest", "scikit-learn"],
     live: "",
     repo: "https://github.com/rds-124/Fraud-Detection",
     icon: "shield",
+    image: "/images/fd.png",
   },
   {
-    title: "Automatic Number Plate Recognition (ANPR)",
+    title: "Automatic Number Plate Recognition",
     description:
-      "Real-time license plate detection with YOLOv8 and OpenCV, integrated OCR for accurate number extraction; robust across varied lighting and traffic conditions.",
+      "Real-time license plate detection with YOLOv8 and OpenCV, integrated OCR for accurate number extraction.",
     tech: ["Python", "YOLOv8", "OpenCV", "OCR"],
     live: "",
     repo: "https://github.com/rds-124/ANPR-YOLOv8",
     icon: "camera",
+    image: "/images/anpr.png",
   },
 ];
 
+const projectPairs = projects.reduce((result, _value, index, array) => {
+  if (index % 2 === 0) {
+    result.push(array.slice(index, index + 2));
+  }
+  return result;
+}, [] as (typeof projects)[]);
+
+
 const iconMap: Record<string, JSX.Element> = {
-  bar: <BarChart3 className="w-5 h-5" />,
-  line: <LineChart className="w-5 h-5" />,
-  pie: <PieChart className="w-5 h-5" />,
-  hand: <Hand className="w-5 h-5" />,
-  shield: <ShieldCheck className="w-5 h-5" />,
-  camera: <Camera className="w-5 h-5" />,
+  bar: <BarChart3 className="w-8 h-8" />,
+  line: <LineChart className="w-8 h-8" />,
+  pie: <PieChart className="w-8 h-8" />,
+  hand: <Hand className="w-8 h-8" />,
+  shield: <ShieldCheck className="w-8 h-8" />,
+  camera: <Camera className="w-8 h-8" />,
 };
 
 const brandVarMap: Record<string, string> = {
@@ -83,77 +109,146 @@ const brandVarMap: Record<string, string> = {
   OCR: "--brand-ocr",
 };
 
-const Projects = () => {
+// --- 2. CSS for the 3D Flip Effect ---
+const FlipCardStyles = () => (
+  <style>{`
+    .flip-card {
+      perspective: 1500px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden; /* For Safari */
+      backface-visibility: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+  `}</style>
+);
+
+// --- 3. The New Project Card Component with Flip Logic ---
+const ProjectCard = ({ project }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = () => setIsFlipped(!isFlipped);
+  
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') handleFlip();
+  };
+
   return (
-    <section id="projects" className="relative py-24 section-gradient-dark">
-      <div className="container">
-        <h2 className="font-display text-3xl md:text-4xl font-semibold mb-10">Projects</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {projects.map((p) => (
-            <article
-              key={p.title}
-              className="group relative h-full flex flex-col rounded-xl border card-premium overflow-hidden"
-            >
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-secondary/60 flex items-center justify-center ring-1 ring-border text-foreground/90">
-                    {iconMap[p.icon]}
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold leading-tight">{p.title}</h3>
+    <div
+      className={`flip-card w-full h-96 rounded-2xl ${isFlipped ? 'flipped' : ''}`}
+      onClick={handleFlip}
+      onMouseEnter={() => window.innerWidth > 768 && setIsFlipped(true)}
+      onMouseLeave={() => window.innerWidth > 768 && setIsFlipped(false)}
+      tabIndex="0"
+      onKeyPress={handleKeyPress}
+      role="button"
+      aria-pressed={isFlipped}
+    >
+      <div className="flip-card-inner rounded-2xl">
+        {/* --- Card Front --- */}
+        <div className="flip-card-front absolute w-full h-full">
+            <div className="relative z-10 flex flex-col h-full p-6 rounded-2xl text-gray-800 dark:text-white overflow-hidden bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 shadow-lg">
+                <div className="w-14 h-14 rounded-lg bg-black/5 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center ring-1 ring-black/10 dark:ring-white/20 mb-4">
+                    {iconMap[project.icon]}
                 </div>
-                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                  {p.description}
-                </p>
-
-                {p.tech && (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="tag-chip"
-                        style={{ backgroundColor: `hsl(var(${brandVarMap[t] ?? "--brand-generic"}))` }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                {project.image && (
+                    <div className="my-2 rounded-lg overflow-hidden flex-shrink-0">
+                        <img src={project.image} alt={project.title} className="w-full h-32 object-cover" />
+                    </div>
                 )}
-
-                <div className="mt-6 md:mt-8 flex items-center gap-3">
-                  {p.live && (
-                    <a
-                      href={p.live}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="story-link inline-flex items-center gap-2 text-sm"
-                    >
-                      Live <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
+                <div className="flex-grow flex flex-col justify-center">
+                    <h3 className="text-xl font-bold leading-tight mt-2">{project.title}</h3>
                 </div>
-
-                <div className="mt-auto" />
-              </div>
-
-              {p.repo && (
-                <div className="p-6 pt-0">
-                  <a href={p.repo} target="_blank" rel="noreferrer" className="inline-flex">
-                    <Button
-                      variant="glow"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    >
-                      <Github className="w-4 h-4 mr-2" /> View Code
-                    </Button>
-                  </a>
+                <div className="mt-auto flex-shrink-0">
+                    <div className="flex items-center gap-4">
+                        {project.repo && (
+                            <a href={project.repo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">
+                                <Github className="w-4 h-4" />
+                                <span className="text-sm">Code</span>
+                            </a>
+                        )}
+                        {project.live && (
+                            <a href={project.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">
+                                <ExternalLink className="w-4 h-4" />
+                                <span className="text-sm">Live</span>
+                            </a>
+                        )}
+                    </div>
                 </div>
-              )}
+            </div>
+        </div>
 
-              <div className="pointer-events-none absolute inset-0 rounded-xl shadow-[inset_0_1px_0_hsl(var(--primary)/0.08)] group-hover:shadow-[0_0_0_1px_hsl(var(--primary)/0.25),0_20px_40px_-20px_hsl(var(--primary)/0.35)] transition-shadow duration-300" />
-            </article>
-          ))}
+        {/* --- Card Back --- */}
+        <div className="flip-card-back absolute w-full h-full">
+            <div className="relative z-10 flex flex-col h-full p-6 rounded-2xl justify-center items-center text-center text-gray-800 dark:text-white overflow-hidden bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 shadow-lg">
+                <h4 className="text-lg font-bold mb-2">{project.title}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                    {project.description}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                    {project.tech.map((t) => (
+                        <span key={t} className="tag-chip text-xs px-2 py-1 rounded-full font-medium" style={{ backgroundColor: `hsl(var(${brandVarMap[t] ?? "--brand-generic"}))` }}>
+                            {t}
+                        </span>
+                    ))}
+                </div>
+            </div>
         </div>
       </div>
-    </section>
+    </div>
+  );
+};
+
+
+// --- 4. The Main Projects Component ---
+const Projects = () => {
+  const [emblaRef] = useEmblaCarousel({ align: "start", loop: true });
+
+  return (
+    <>
+      <FlipCardStyles />
+      <section id="projects" className="relative pb-16 scroll-mt-24">
+        <SectionOverlay />
+        <div className="container relative z-20 pt-8">
+          {/* THE FIX IS HERE: The title is now centered and styled identically to the Key Achievements section. */}
+          <div className="text-center mb-12">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+              Projects
+            </h2>
+            <p className="text-lg text-muted-foreground mt-2">A selection of my recent work.</p>
+          </div>
+
+          <div className="embla -ml-4" ref={emblaRef}>
+            <div className="embla__container">
+              {projectPairs.map((pair, index) => (
+                <div key={index} className="embla__slide">
+                  <div className="flex flex-col gap-4">
+                    {pair.map((p) => (
+                      <ProjectCard key={p.title} project={p} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
