@@ -1,73 +1,139 @@
-# Welcome to your Lovable project
+# 🚀 Rohith D - Data Analyst Portfolio
 
-## Project info
+![React](https://img.shields.io/badge/React-Used-blue?logo=react)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Used-38B2AC?logo=tailwindcss)
+![TypeScript](https://img.shields.io/badge/TypeScript-Used-3178C6?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?logo=vite)
+![Deployment](https://img.shields.io/badge/Deployment-GitHub%20Pages-black?logo=github)
+![License](https://img.shields.io/badge/License-MIT-blueviolet)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen)
+![Last Updated](https://img.shields.io/badge/Updated-Aug%202025-red)
+![Deploy](https://github.com/rds-124/My-Portfolio/actions/workflows/deploy.yml/badge.svg)
 
-**URL**: https://lovable.dev/projects/a61484a9-5b01-4de9-b9a3-ab441a1f36ff
+> A modern **data analyst portfolio website** showcasing my skills, projects, and certifications — built with React, TailwindCSS, and Vite.
 
-## How can I edit this code?
+---
+# 🌐 Live Demo:  **[rohith-d.me](https://rohith-d.me/)**
 
-There are several ways of editing your application.
+----
 
-**Use Lovable**
+## 🚀 About the Project
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a61484a9-5b01-4de9-b9a3-ab441a1f36ff) and start prompting.
+This portfolio is more than a static resume — it's a dynamic single-page application
+crafted to highlight my technical projects, professional achievements, and design sense.:
 
-Changes made via Lovable will be committed automatically to this repo.
+- 🎨 Built from scratch with a focus on a clean, modern aesthetic.
 
-**Use your preferred IDE**
+- 📱 Fully responsive design, fine-tuned for a seamless experience on all devices.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- ✨ Features a wide range of animations, from subtle micro-interactions to complex, multi-stage sequences.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- 🌓 Includes a beautiful, animated light/dark mode theme toggle.
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🎯 Key Features
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- ⚡ Built with **React + Vite** for blazing-fast performance
+- 🎨 Styled with **TailwindCSS + custom animations**
+- 🌌 Dark/Light theme with smooth toggle
+- 🧊 Glassmorphism project cards
+- 📱 Fully **responsive** (mobile-first design)
+- 🚀 Deployed with **GitHub Pages** + custom domain `rohith-d.me`
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
+# 🛠️ Tech Stack
+- React (Vite)
+- TypeScript
+- TailwindCSS
+- Lucide-react icons
+- Framer Motion (animations)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+---
+
+## 📂 Project Structure
+
+```bash
+Portfolio/
+├── public/
+│   ├── images/              # Assets & icons
+│   └── togglebar.json       # Lottie animation for theme toggle
+├── src/
+│   ├── components/          # Reusable components (Navbar, Hero, Projects, etc.)
+│   ├── sections/            # About, Skills, Projects, Certifications
+│   └── App.tsx              # Main app entry
+├── package.json
+├── tailwind.config.js
+└── README.md                # Project documentation
+```
+
+---
+
+## 💻 Installation
+
+
+# 1.Clone the Repository
+```bash
+git clone https://github.com/rds-124/portfolio.git
+cd portfolio
+```
+
+# 2.Install Dependencies
+```bash
+npm install
+```
+
+# 3.Run Locally
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🌐 Deployment
 
-**Use GitHub Codespaces**
+This portfolio is deployed via **GitHub Pages** with a **custom domain**:  
+👉 [rohith-d.me](https://rohith-d.me/)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 📊 Sections
 
-This project is built with:
+- **Hero Section** → Intro with dark/light toggle
+- **About Me** → Brief bio & career goals
+- **Skills** → Technical stack (Python, SQL, Power BI, ML, etc.)
+- **Projects** → Detailed cards with tags, links, and achievements
+- **Certifications** → Industry-recognized certifications
+- **Contact** → Direct links to LinkedIn, GitHub, and email
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 📈 Future Improvements
 
-Simply open [Lovable](https://lovable.dev/projects/a61484a9-5b01-4de9-b9a3-ab441a1f36ff) and click on Share -> Publish.
+- Add a **Blog section** for insights & case studies
+- Integrate **backend contact form** (Node.js / Firebase)
+- Add **analytics** for visitor tracking
+- Include **downloadable resume** option
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🙏 Acknowledgements
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- [React](https://react.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
+- [Lucide Icons](https://lucide.dev/)
+- [LottieFiles](https://lottiefiles.com/)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
+
+## 📅 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 📧 Contact
+
+**Rohith D**  
+[🌐 Portfolio](https://rohith-d.me) | [LinkedIn](https://www.linkedin.com/in/rohith124) | [GitHub](https://github.com/rds-124)
