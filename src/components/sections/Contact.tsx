@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { Linkedin, Github, Mail, Instagram, Copy, Check } from 'lucide-react';
 import SplitText from "@/components/SplitText";
 
-// --- 1. Define the types for the component's props ---
+// --- Define the types for the component's props ---
 interface SocialLinkProps {
   href: string;
   tooltip: string;
   children: React.ReactNode;
-  brandColor?: string; // Optional: used for solid backgrounds
-  gradientClassName?: string; // Optional: used for gradients
+  brandColor?: string;
+  gradientClassName?: string;
 }
 
-// --- 2. The SocialLink component now uses the types ---
 const SocialLink: React.FC<SocialLinkProps> = ({ href, tooltip, brandColor, gradientClassName, children }) => {
   const isMailLink = href.startsWith('mailto:');
   
@@ -27,7 +26,6 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, tooltip, brandColor, grad
       target={isMailLink ? '_self' : '_blank'}
       rel={isMailLink ? undefined : 'noopener noreferrer'}
       className={finalClassName}
-      // This style is now smarter: it only applies a background color if there's no gradient.
       style={{ backgroundColor: !gradientClassName ? brandColor : undefined }}
     >
       {children}
@@ -42,7 +40,6 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, tooltip, brandColor, grad
   );
 };
 
-// --- 3. The main Contact component ---
 const Contact = () => {
   const [copyText, setCopyText] = useState('Copy');
   const email = 'rohithsd124@gmail.com';
@@ -84,6 +81,7 @@ const Contact = () => {
           >
             <Linkedin className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
+          
           <SocialLink 
             href="https://github.com/rds-124" 
             tooltip="GitHub" 
@@ -91,6 +89,7 @@ const Contact = () => {
           >
             <Github className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
+
           <SocialLink 
             href={`mailto:${email}`}
             tooltip="Email" 
@@ -98,6 +97,7 @@ const Contact = () => {
           >
             <Mail className="w-6 h-6 md:w-8 md:h-8" />
           </SocialLink>
+
           <SocialLink 
             href="https://www.instagram.com/rds_124/" 
             tooltip="Instagram" 
@@ -110,9 +110,10 @@ const Contact = () => {
         <div className="mt-12 text-center">
           <p className="text-muted-foreground mb-4">Or reach me directly:</p>
           <div 
+            // --- THE FIX IS HERE: Added a dark border for light mode ---
             className="relative inline-flex items-center justify-center p-1 rounded-full
                        bg-white/10 dark:bg-black/30 backdrop-blur-xl 
-                       border border-white/20"
+                       border border-black/20 dark:border-white/20"
           >
             <span className="px-6 py-2 text-lg text-foreground">{email}</span>
             <button

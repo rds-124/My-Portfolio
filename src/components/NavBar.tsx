@@ -29,23 +29,38 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["hero", "projects", "skills", "about", "resume", "certifications", "contact"];
-      const scrollPosition = window.scrollY + window.innerHeight * 0.4;
+      // --- THE FIX IS HERE: All sections are now included in the order they appear on the page. ---
+      const sections = [
+        "hero", 
+        "achievements", 
+        "philosophy", 
+        "projects", 
+        "skills", 
+        "about", 
+        "resume", 
+        "certifications", 
+        "contact"
+      ];
+      const scrollPosition = window.scrollY + window.innerHeight * 0.5; // Centered viewport detection
 
-      let currentSection = "hero";
+      let currentSection = "";
+
+      // --- AND HERE: The logic now correctly finds which section is currently in view. ---
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
           const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             currentSection = sectionId;
-            break;
+            break; // Stop once the current section is found
           }
         }
       }
-      // Special case for certifications, as it's not in the main nav
-      if (currentSection === 'certifications') {
-        setActiveSection('resume');
+      
+      // This handles sections that don't have a direct nav link
+      if (['achievements', 'philosophy', 'certifications'].includes(currentSection)) {
+        // No button is active for these sections
+        setActiveSection(''); 
       } else {
         setActiveSection(currentSection);
       }
@@ -59,7 +74,7 @@ const NavBar = () => {
   return (
     <nav className={`fixed bottom-0 md:bottom-8 left-1/2 transform -translate-x-1/2 z-50 w-full md:w-auto transition-all duration-700 ease-out font-medium ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
       
-      {/* --- Desktop Navbar (No major changes) --- */}
+      {/* --- Desktop Navbar --- */}
       <div className="hidden md:block">
         <ElectricBorder 
           color="#a855f7"
@@ -112,7 +127,7 @@ const NavBar = () => {
         </ElectricBorder>
       </div>
 
-      {/* --- FINETUNED Mobile Navbar --- */}
+      {/* --- Mobile Navbar --- */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 
         bg-white/20 dark:bg-black/20 
         backdrop-blur-xl border-t border-white/20 dark:border-white/10"
@@ -128,7 +143,6 @@ const NavBar = () => {
               }`}
               aria-label={item.label}
             >
-              {/* Pill-shaped background for the active item */}
               {activeSection === item.id && (
                 <span className="absolute inset-0 bg-white/15 dark:bg-white/10 rounded-xl"></span>
               )}

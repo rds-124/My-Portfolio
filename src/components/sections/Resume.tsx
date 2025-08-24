@@ -128,7 +128,7 @@ const Resume = () => {
                   >
                     <div className="absolute inset-0 shadow-[inset_10px_0px_15px_-10px_rgba(0,0,0,0.4)] dark:shadow-[inset_10px_0px_15px_-10px_rgba(0,0,0,0.8)] pointer-events-none"></div>
                     <img
-                      src="/images/resume.png"
+                      src="/images/resume.svg"
                       alt="Preview of Rohith D's Resume"
                       className="w-full h-full object-cover object-top"
                     />

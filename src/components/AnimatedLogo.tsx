@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-// --- CSS for the Batman-style animation with theme-aware colors ---
+// --- CSS updated with a more robust responsive animation ---
 const LogoStyles = () => (
   <style>{`
+    @keyframes fill-in-out {
+      0% { width: 0%; }
+      50% { width: 100%; }
+      100% { width: 0%; }
+    }
+
+    @keyframes text-color-change-out {
+      0% { color: hsl(var(--muted-foreground)); }
+      50% { color: hsl(var(--foreground)); }
+      100% { color: hsl(var(--muted-foreground)); }
+    }
+
     .logo-button {
       border: none;
       position: relative;
@@ -68,16 +80,60 @@ const LogoStyles = () => (
     .logo-button:hover:before {
       width: 100%;
     }
+
+    /* --- Base animation for mobile --- */
+    .logo-button.animate-on-load:before {
+      animation: fill-in-out 2s ease-in-out 0.5s;
+    }
+
+    .logo-button.animate-on-load span {
+      animation: text-color-change-out 2s ease-in-out 0.5s;
+    }
+    
+    /* --- THE FIX: Explicitly redeclare the entire animation for desktop --- */
+    @media (min-width: 768px) {
+      .logo-button.animate-on-load:before {
+        animation: fill-in-out 2.5s ease-in-out 0.5s;
+      }
+      .logo-button.animate-on-load span {
+        animation: text-color-change-out 2.5s ease-in-out 0.5s;
+      }
+    }
   `}</style>
 );
 
 const AnimatedLogo = () => {
+  const [animationKey, setAnimationKey] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimationKey(1);
+    }, 200);
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          setAnimationKey(prevKey => prevKey + 1);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <>
       <LogoStyles />
-      {/* --- RESPONSIVE FIX: Wrapper to scale the logo on mobile --- */}
-      <div className="transform scale-75 md:scale-100 transition-transform duration-300">
-        <button className="logo-button">
+      <div className="relative -left-2 md:left-0 transform scale-[.60] md:scale-100 transition-transform duration-300">
+        <button 
+          key={animationKey} 
+          className={`logo-button ${animationKey > 0 ? 'animate-on-load' : ''}`}
+        >
           <span>RDS</span>
         </button>
       </div>
