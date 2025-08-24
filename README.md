@@ -54,17 +54,35 @@ crafted to highlight my technical projects, professional achievements, and desig
 ## 📂 Project Structure
 
 ```bash
-Portfolio/
-├── public/
-│   ├── images/              # Assets & icons
-│   └── togglebar.json       # Lottie animation for theme toggle
-├── src/
-│   ├── components/          # Reusable components (Navbar, Hero, Projects, etc.)
-│   ├── sections/            # About, Skills, Projects, Certifications
-│   └── App.tsx              # Main app entry
-├── package.json
-├── tailwind.config.js
-└── README.md                # Project documentation
+My-Portfolio/
+├── public/                # Public assets accessible directly
+│   ├── images/            # Logos, icons, and images
+│   └── pdf/               # Resume or other downloadable PDFs
+│
+├── src/                   # Main source code
+│   ├── components/        # Reusable UI components
+│   │   ├── animations/    # Animated effects (logo, text, borders, etc.)
+│   │   ├── layout/        # Page structure parts (Header, Footer, NavBar)
+│   │   └── ui/            # General UI widgets (cards, toggles, etc.)
+│   │
+│   ├── hooks/             # Custom React hooks
+│   │
+│   ├── pages/             # Full pages (e.g., HomePage)
+│   │
+│   ├── sections/          # Sections of pages (About, Projects, Skills, etc.)
+│   │
+│   ├── styles/            # Global CSS or Tailwind overrides
+│   │
+│   ├── App.tsx            # Root app component
+│   └── main.tsx           # App entry point
+│
+├── index.html             # Base HTML template
+├── package.json           # Dependencies and scripts
+├── tailwind.config.ts     # Tailwind CSS configuration
+├── tsconfig.json          # TypeScript configuration
+└── vite.config.ts         # Vite build tool configuration
+
+
 ```
 
 ---
