@@ -1,4 +1,4 @@
-#🚀 Rohith D — Interactive Data Analyst Portfolio
+# 🚀 Rohith D — Interactive Data Analyst Portfolio
 
 ![React](https://img.shields.io/badge/React-Used-blue?logo=react)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Used-38B2AC?logo=tailwindcss)
