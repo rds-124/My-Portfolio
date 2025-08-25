@@ -14,6 +14,7 @@
 
 ---
 # 🌐 Live Demo:  **[rohith-d.me](https://rohith-d.me/)**
+![Portfolio Preview](hero.jpg)
 
 ----
 
