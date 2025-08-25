@@ -47,7 +47,7 @@ const TechItem = ({ icon, name, description }) => (
 
 const TechPhilosophy = () => {
   return (
-    <section id="philosophy" className="relative py-20 px-4 sm:px-6 lg:px-8">
+    <section id="philosophy" className="relative pt-20 pb-32 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col gap-4 text-center lg:text-left">

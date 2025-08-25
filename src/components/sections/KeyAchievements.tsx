@@ -40,16 +40,38 @@ const KeyAchievements = () => {
   ];
 
   return (
-    <section id="achievements" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="achievements" className="relative pt-32 pb-48  px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="container mx-auto max-w-5xl relative z-10">
         <div className="text-center mb-12">
-          {/* Replaced the h2 tag with the SplitText component */}
-          <SplitText
-            text="Key Achievements"
-            className="font-display text-4xl md:text-5xl font-bold text-foreground"
-            splitType="chars"
-            delay={50}
-          />
+          
+          {/* --- This block handles the responsive title --- */}
+          
+          {/* Desktop Version (Original - hidden on mobile) */}
+          <div className="hidden md:block">
+            <SplitText
+              text="Key Achievements"
+              className="font-display text-5xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
+          </div>
+
+          {/* Mobile Version (Two Lines - hidden on desktop) */}
+          <div className="block md:hidden">
+            <SplitText
+              text="Key"
+              className="font-display text-4xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
+            <SplitText
+              text="Achievements"
+              className="font-display text-4xl font-bold text-foreground"
+              splitType="chars"
+              delay={50}
+            />
+          </div>
+
           <p className="text-lg text-muted-foreground mt-2">Quantifiable results from my project work.</p>
         </div>
 

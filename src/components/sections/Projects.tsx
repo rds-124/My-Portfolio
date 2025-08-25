@@ -256,7 +256,7 @@ const Projects = () => {
       <FlipCardStyles />
       <section id="projects" className="relative pb-16 scroll-mt-24">
         <SectionOverlay />
-        <div className="container relative z-20 pt-8">
+        <div className="container relative z-20 pt-8 pb-16">
           <div className="text-center mb-12">
             <SplitText
               text="Projects"

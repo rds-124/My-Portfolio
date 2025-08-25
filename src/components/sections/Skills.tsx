@@ -86,7 +86,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="relative py-24 bg-transparent text-[hsl(var(--sidebar-foreground))]"
+      className="relative pt-24 pb-32 bg-transparent text-[hsl(var(--sidebar-foreground))]"
     >
       <div className="container max-w-4xl">
         <div className="text-center mb-12">
