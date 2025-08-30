@@ -177,7 +177,7 @@ const GlassSurface: React.FC<GlassSurfaceProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative flex items-center justify-center overflow-hidden transition-opacity duration-[260ms] ease-out ${className}`}
+      className={`relative flex items-center justify-center overflow-hidden transition-opacity duration-300 ease-out ${className}`}
       style={getContainerStyles()}
     >
       {/* same SVG filter defs */}

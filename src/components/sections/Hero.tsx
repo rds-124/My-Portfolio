@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Github, Linkedin, BarChart3 } from "lucide-react";
 import { useRipple } from "@/hooks/useRipple";
 import SectionOverlay from "@/components/SectionOverlay";
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import RealTimeClock from "@/components/RealTimeClock";
 import { motion } from 'framer-motion';
 
