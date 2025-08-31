@@ -124,7 +124,6 @@ const StyledDownloadButton = ({ href, download }) => (
 // --- Reusable PDF Viewer Modal Component ---
 const PdfViewerModal = ({ certification, isOpen, onClose }) => {
   const [isPdfLoading, setIsPdfLoading] = useState(true);
-  // ** THE FIX - Part 1: Using state to hold the DOM node, populated by a callback ref. **
   const [pdfNode, setPdfNode] = useState(null);
 
   useEffect(() => {
@@ -139,10 +138,7 @@ const PdfViewerModal = ({ certification, isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  // ** THE FIX - Part 2: This effect ONLY runs when the pdfNode is mounted or unmounted. **
-  // This completely avoids the race condition.
   useEffect(() => {
-    // If the node is not set or has been removed, do nothing.
     if (pdfNode === null) {
       return;
     }
@@ -154,12 +150,10 @@ const PdfViewerModal = ({ certification, isOpen, onClose }) => {
     setIsPdfLoading(true);
     pdfNode.addEventListener('load', handleLoad);
 
-    // This cleanup function runs when the pdfNode changes (i.e., when the component re-renders with a different cert)
-    // or when the component unmounts.
     return () => {
       pdfNode.removeEventListener('load', handleLoad);
     };
-  }, [pdfNode]); // The key change is this dependency array.
+  }, [pdfNode]);
 
   if (!isOpen || !certification) return null;
 
@@ -187,7 +181,6 @@ const PdfViewerModal = ({ certification, isOpen, onClose }) => {
                 <p className="mt-4 text-sm">Loading Certificate...</p>
               </div>
             )}
-            {/* ** THE FIX - Part 3: Using a callback ref to update the state ** */}
             <object ref={setPdfNode} data={`${link}#toolbar=0&navpanes=0`} type="application/pdf" className={`w-full h-full transition-opacity duration-300 ${isPdfLoading ? 'opacity-0' : 'opacity-100'}`} aria-label={`${title} PDF`}>
               <div className="flex flex-col items-center justify-center h-full p-8 text-center text-black">
                 <p className="mb-4">Browser does not support embedded PDFs.</p>
@@ -241,10 +234,10 @@ const CertificationCard = ({ certification, onViewClick }) => {
       </div>
       {link && (
         <div className={`absolute bottom-6 left-6 right-6 inline-flex items-center justify-center gap-2 
-                        bg-gray-700/80 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-lg 
-                        transition-all duration-500 pointer-events-none
-                        ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-                        ${!hasAnimatedIn ? '' : 'group-hover:opacity-100 group-hover:translate-y-0'}`}>
+                           bg-gray-700/80 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-lg 
+                           transition-all duration-500 pointer-events-none
+                           ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+                           ${!hasAnimatedIn ? '' : 'group-hover:opacity-100 group-hover:translate-y-0'}`}>
           <LinkIcon size={16} />
           Verify Credential
         </div>
@@ -261,10 +254,10 @@ const CertificationCard = ({ certification, onViewClick }) => {
       ref={cardRef}
       onClick={() => onViewClick(certification)}
       className="group relative h-full w-full flex flex-col rounded-2xl p-6 text-gray-800 dark:text-white overflow-hidden
-                 bg-white/10 dark:bg-black/30 backdrop-blur-xl 
-                 border border-white/20 
-                 shadow-lg hover:shadow-2xl text-left
-                 transition-all duration-300 hover:scale-[1.03]"
+               bg-white/10 dark:bg-black/30 backdrop-blur-xl 
+               border border-white/20 
+               shadow-lg hover:shadow-2xl text-left
+               transition-all duration-300 hover:scale-[1.03]"
     >
       {cardContent}
     </button>
@@ -272,9 +265,25 @@ const CertificationCard = ({ certification, onViewClick }) => {
 };
 
 
-// --- Main Certifications Component ---
+// --- Main Certifications Component (WITH MODIFICATIONS) ---
 const Certifications = () => {
   const [activeCertification, setActiveCertification] = useState(null);
+
+  // --- NEW: Conditional handler for clicking a certification card ---
+  const handleCardClick = (certification) => {
+    // If the card is not clickable (e.g., in-progress cert), do nothing.
+    if (!certification || !certification.link) {
+      return;
+    }
+
+    // On mobile devices (< 768px), open the certificate PDF in a new tab.
+    if (window.innerWidth < 768) {
+      window.open(certification.link, '_blank');
+    } else {
+      // On desktop devices, open the modal viewer.
+      setActiveCertification(certification);
+    }
+  };
 
   return (
     <>
@@ -294,7 +303,7 @@ const Certifications = () => {
               <CertificationCard 
                 key={c.title} 
                 certification={c} 
-                onViewClick={setActiveCertification} 
+                onViewClick={handleCardClick} // <-- Use the new conditional handler
               />
             ))}
           </div>
@@ -311,4 +320,3 @@ const Certifications = () => {
 };
 
 export default Certifications;
-

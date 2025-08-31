@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // --- Placeholder Components (to make this file self-contained) ---
 
-// NOTE: The old DownloadIcon is no longer used and has been removed.
-
 const ArrowRightIcon = (props) => (
   <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="5" y1="12" x2="19" y2="12" />
@@ -278,12 +276,12 @@ const ResumeModal = ({ isOpen, onClose }) => {
 };
 
 
-// --- The Main Resume Component ---
+// --- The Main Resume Component (WITH MODIFICATIONS) ---
 const Resume = () => {
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // New state for the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const bookRef = useRef(null);
 
   // Effect for the one-time peek animation on scroll (unchanged)
@@ -324,6 +322,17 @@ const Resume = () => {
     }
   };
 
+  // --- NEW: Handler for clicking the resume preview ---
+  const handleResumeClick = () => {
+    // On mobile (< 768px), open the PDF directly in a new tab.
+    if (window.innerWidth < 768) {
+      window.open('/pdf/Rohith_D.pdf', '_blank');
+    } else {
+      // On desktop, open the modal as before.
+      setIsModalOpen(true);
+    }
+  };
+
   const currentDate = new Date();
   const month = currentDate.toLocaleString('default', { month: 'long' });
   const year = currentDate.getFullYear();
@@ -355,11 +364,11 @@ const Resume = () => {
                 <div 
                   className="absolute w-full h-full rounded-r-lg p-2 bg-white/10 dark:bg-black/30 backdrop-blur-xl border border-white/20 shadow-inner"
                 >
-                  {/* CHANGED: This now opens the modal instead of a new tab */}
+                  {/* UPDATED: This now uses the conditional handler */}
                   <button
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={handleResumeClick} // <-- Use the new handler here
                     className="block w-full h-full rounded-md overflow-hidden relative group/resume cursor-pointer transition-transform duration-300 hover:scale-[1.02] gpu-accelerate"
-                    aria-label="Open resume in modal view"
+                    aria-label="View Resume" // <-- Updated aria-label for accuracy
                   >
                     <div className="absolute inset-0 shadow-[inset_10px_0px_15px_-10px_rgba(0,0,0,0.4)] dark:shadow-[inset_10px_0px_15px_-10px_rgba(0,0,0,0.8)] pointer-events-none"></div>
                     <img
@@ -376,10 +385,10 @@ const Resume = () => {
                 {/* --- The Cover of the Book (Front Part) --- */}
                 <div 
                   className={`book-cover absolute w-full h-full rounded-lg p-6 flex flex-col justify-center items-center text-center preserve-3d
-                            bg-white/20 dark:bg-black/40 backdrop-blur-lg 
-                            border border-white/20 shadow-2xl
-                            cover-texture bg-opacity-50 cursor-pointer
-                            ${isBookOpen ? 'rotate-y-minus-80' : isPeeking ? 'rotate-y-minus-35' : ''}`}
+                              bg-white/20 dark:bg-black/40 backdrop-blur-lg 
+                              border border-white/20 shadow-2xl
+                              cover-texture bg-opacity-50 cursor-pointer
+                              ${isBookOpen ? 'rotate-y-minus-80' : isPeeking ? 'rotate-y-minus-35' : ''}`}
                 >
                   <div className="flex-grow flex flex-col justify-center items-center">
                     <h3 className="text-2xl font-bold text-black dark:text-white">My Resume</h3>
@@ -411,9 +420,3 @@ const Resume = () => {
 };
 
 export default Resume;
-
-
-
-
-
-
