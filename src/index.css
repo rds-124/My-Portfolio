@@ -536,3 +536,11 @@ All colors MUST be HSL.
   --brand-generic: 220 12% 28%;
 }
 
+.terminal-drag:hover {
+  cursor: url('/navigation-grab.png'), grab;
+}
+
+.terminal-drag:active {
+  cursor: url('/navigation-grab.png'), grabbing;
+}
+

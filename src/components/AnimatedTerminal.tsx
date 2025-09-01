@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Moon } from 'lucide-react';
+import { useCursor } from '../hooks/useCursor';
 
 // --- CSS for the typing animation ---
 const TerminalStyles = () => (
@@ -41,6 +42,9 @@ const AnimatedTerminal = ({ isDark }) => {
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
   const terminalRef = useRef(null);
+
+  // --- Cursor context ---
+  const { setTerminalHovered } = useCursor();
 
   // Effect for the real-time clock
   useEffect(() => {
@@ -86,16 +90,20 @@ const AnimatedTerminal = ({ isDark }) => {
     return () => clearTimeout(timer);
   }, [typedText, isDeleting, quoteIndex]);
 
-  // --- Drag and Drop Logic ---
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    dragOffset.current = {
-      x: e.clientX - position.x,
-      y: e.clientY - position.y
-    };
-    document.body.style.userSelect = 'none';
-    e.preventDefault();
+// --- Drag and Drop Logic ---
+const handleMouseDown = (e: React.MouseEvent) => {
+  // Only allow drag when clicking inside the terminal header
+  if (!(e.target as HTMLElement).closest(".terminal-drag")) return;
+
+  setIsDragging(true);
+  dragOffset.current = {
+    x: e.clientX - position.x,
+    y: e.clientY - position.y
   };
+  document.body.style.userSelect = 'none';
+  e.preventDefault();
+};
+
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -107,7 +115,7 @@ const AnimatedTerminal = ({ isDark }) => {
     };
     const handleMouseUp = () => {
       setIsDragging(false);
-      document.body.style.userSelect = 'auto';
+      document.body.style.userSelect = '';
     };
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
@@ -134,12 +142,14 @@ const AnimatedTerminal = ({ isDark }) => {
           zIndex: isDragging ? 1000 : 10,
           touchAction: 'none'
         }}
+        onMouseEnter={() => setTerminalHovered(true)}
+        onMouseLeave={() => setTerminalHovered(false)}
       >
         {/* --- Terminal Header --- */}
         <div 
-            className={`h-9 flex items-center justify-between px-4 
+            className={`terminal-drag h-9 flex items-center justify-between px-4 
                         ${isDark ? 'bg-gray-800/50 border-white/10' : 'bg-gray-200/80 border-gray-300'}
-                        border-b cursor-grab active:cursor-grabbing`}
+                        border-b`}
             onMouseDown={handleMouseDown}
         >
           <div className="flex items-center gap-2">

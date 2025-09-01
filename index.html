@@ -39,6 +39,81 @@
 <link rel="mask-icon" href="/favicon.ico" color="#5bbad5">
 <meta name="theme-color" content="#0f172a">
 
+    <!-- Custom Cursor Styles -->
+    <style>
+      /* CSS-only fallback cursor (uncomment to use instead of JS version) */
+      /*
+      body {
+        cursor: url('/images/navigation.png') 4 2, auto;
+      }
+      */
+      
+      /* Hide default cursor */
+      * {
+        cursor: none !important;
+      }
+      
+      /* Custom cursor container */
+      .custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 32px;
+        height: 32px;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+        will-change: transform;
+      }
+      
+      /* Custom cursor image */
+      .custom-cursor::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        background-image: url('/images/navigation.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        /* Offset to align arrow tip with click point */
+        transform: translate(-3px, -4px);
+        transition: transform 0.15s ease-out;
+      }
+      
+      /* Hover animation for interactive elements */
+      .custom-cursor.hover {
+        transform: scale(1.1);
+      }
+      
+      .custom-cursor.hover::before {
+        background-image: url('/images/navigation-hand.png');
+        transform: translate(-3px, -4px) scale(1.4  );
+      }
+      
+      /* Grabbing state */
+      .custom-cursor.grabbing::before {
+        background-image: url('/images/navigation-grab.png');
+        transform: translate(-3px, -4px) scale(1.2);
+      }
+      
+      /* Terminal hover state */
+      .custom-cursor.terminal-hover::before {
+        background-image: url('/images/navigation-grab.png');
+        transform: translate(-3px, -4px) scale(1.1);
+      }
+      /* Hide cursor on mobile/touch devices */
+      @media (hover: none) and (pointer: coarse) {
+        .custom-cursor {
+          display: none;
+        }
+        * {
+          cursor: auto !important;
+        }
+      }
+    </style>
 
     <!-- Lottie Animations -->
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>

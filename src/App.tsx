@@ -7,25 +7,30 @@ import Index from "./pages/Index";
 import Layout from "@/components/Layout";
 import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "@/hooks/useTheme";
+import { CursorProvider } from "@/hooks/useCursor";
+import CustomCursor from "@/CustomCursor";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </TooltipProvider>
+      <CursorProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <CustomCursor />
+          <BrowserRouter>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          </BrowserRouter>
+        </TooltipProvider>
+      </CursorProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
