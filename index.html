@@ -5,120 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rohith D — Data Analyst Portfolio</title>
 
-    <!-- SEO -->
     <meta name="description" content="Portfolio of Rohith D — Data Analyst skilled in Python, SQL, and Power BI. Explore projects, skills, and contact information." />
     <meta name="author" content="Rohith D" />
     <link rel="canonical" href="https://rohith-d.me/" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Open Graph (for LinkedIn, Facebook) -->
     <meta property="og:title" content="Rohith D — Data Analyst Portfolio" />
     <meta property="og:description" content="Explore projects, skills, and contact information for Rohith D, Data Analyst." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rohith-d.me/" />
     <meta property="og:image" content="https://rohith-d.me/og.jpg" />
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@rohith" />
     <meta name="twitter:title" content="Rohith D — Data Analyst Portfolio" />
     <meta name="twitter:description" content="Data Analyst skilled in Python, SQL, and Power BI. View projects and skills." />
     <meta name="twitter:image" content="https://rohith-d.me/og.jpg" />
 
-<!-- ✅ Favicons (all use favicon.ico) -->
-<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16">
-<link rel="apple-touch-icon" href="/favicon.ico">
-<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="192x192">
-<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="512x512">
-<link rel="manifest" href="/favicon.ico">
-<link rel="mask-icon" href="/favicon.ico" color="#5bbad5">
-<meta name="theme-color" content="#0f172a">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0f172a">
 
-    <!-- Custom Cursor Styles -->
     <style>
-      /* CSS-only fallback cursor (uncomment to use instead of JS version) */
-      /*
-      body {
-        cursor: url('/images/navigation.png') 4 2, auto;
-      }
-      */
-      
-      /* Hide default cursor */
-      * {
-        cursor: none !important;
-      }
-      
-      /* Custom cursor container */
-      .custom-cursor {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 32px;
-        height: 32px;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.1s ease-out;
-        will-change: transform;
-      }
-      
-      /* Custom cursor image */
-      .custom-cursor::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 24px;
-        height: 24px;
-        background-image: url('/images/navigation.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        /* Offset to align arrow tip with click point */
-        transform: translate(-3px, -4px);
-        transition: transform 0.15s ease-out;
-      }
-      
-      /* Hover animation for interactive elements */
-      .custom-cursor.hover {
-        transform: scale(1.1);
-      }
-      
-      .custom-cursor.hover::before {
-        background-image: url('/images/navigation-hand.png');
-        transform: translate(-3px, -4px) scale(1.4  );
-      }
-      
-      /* Grabbing state */
-      .custom-cursor.grabbing::before {
-        background-image: url('/images/navigation-grab.png');
-        transform: translate(-3px, -4px) scale(1.2);
-      }
-      
-      /* Terminal hover state */
-      .custom-cursor.terminal-hover::before {
-        background-image: url('/images/navigation-grab.png');
-        transform: translate(-3px, -4px) scale(1.1);
-      }
-      /* Hide cursor on mobile/touch devices */
+      * { cursor: none !important; }
+      .custom-cursor { position: fixed; top: 0; left: 0; width: 32px; height: 32px; pointer-events: none; z-index: 9999; transition: transform 0.1s ease-out; will-change: transform; }
+      .custom-cursor::before { content: ''; position: absolute; top: 0; left: 0; width: 24px; height: 24px; background-image: url('/images/navigation.png'); background-size: contain; background-repeat: no-repeat; background-position: center; transform: translate(-3px, -4px); transition: transform 0.15s ease-out; }
+      .custom-cursor.hover { transform: scale(1.1); }
+      .custom-cursor.hover::before { background-image: url('/images/navigation-hand.png'); transform: translate(-3px, -4px) scale(1.4); }
+      .custom-cursor.grabbing::before, .custom-cursor.terminal-hover::before { background-image: url('/images/navigation-grab.png'); transform: translate(-3px, -4px) scale(1.2); }
       @media (hover: none) and (pointer: coarse) {
-        .custom-cursor {
-          display: none;
-        }
-        * {
-          cursor: auto !important;
-        }
+        .custom-cursor { display: none; }
+        * { cursor: auto !important; }
       }
     </style>
 
-    <!-- Lottie Animations -->
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
-    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -136,6 +59,7 @@
 
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    
+    <script type="module" src="/src/main.tsx" defer></script>
   </body>
 </html>

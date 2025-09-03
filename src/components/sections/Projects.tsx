@@ -23,7 +23,7 @@ const projects = [
     live: "",
     repo: "https://github.com/rds-124",
     icon: "bar",
-    image: "/images/zomato.png",
+    image: "/images/zomato.avif",
   },
   {
     title: "Indian Startup Failure Analysis",
@@ -33,7 +33,7 @@ const projects = [
     live: "",
     repo: "https://github.com/rds-124/Indian-Startup-Failure-Analysis",
     icon: "line",
-    image: "/images/isfa.png",
+    image: "/images/isfa.avif",
   },
   {
     title: "Power BI Dashboards",
@@ -43,7 +43,7 @@ const projects = [
     live: "",
     repo: "https://github.com/rds-124/PowerBI-Dashboards",
     icon: "pie",
-    image: "/images/pbi.png",
+    image: "/images/pbi.avif",
   },
   {
     title: "SIGNSPEAK: Gestures to Speech",
@@ -53,7 +53,7 @@ const projects = [
     live: "",
     repo: "https://github.com/rds-124/SIGNSPEAK",
     icon: "hand",
-    image: "/images/sign.png",
+    image: "/images/sign.avif",
   },
   {
     title: "Fraud Detection for Transactions",
@@ -63,7 +63,7 @@ const projects = [
     live: "",
     repo: "https://github.com/rds-124/Fraud-Detection",
     icon: "shield",
-    image: "/images/fd.png",
+    image: "/images/fd.avif",
   },
   {
     title: "Automatic Number Plate Recognition",
@@ -73,7 +73,7 @@ const projects = [
     live: "",
     repo: "https://github.com/rds-124/ANPR-YOLOv8",
     icon: "camera",
-    image: "/images/anpr.png",
+    image: "/images/anpr.avif",
   },
 ];
 

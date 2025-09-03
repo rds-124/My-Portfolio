@@ -40,12 +40,6 @@ const About = () => {
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                 <p className="text-muted-foreground">
-                  Expert in Python, SQL, Power BI, and advanced analytics
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-                <p className="text-muted-foreground">
                   Passionate about turning raw data into business intelligence
                 </p>
               </div>
@@ -68,7 +62,7 @@ const About = () => {
           <div className="flex justify-center animate-enter">
             <div className="w-80 h-80 flex items-center justify-center">
               <lottie-player
-                src="https://lottie.host/4e9e8ffe-2c8f-4386-9c9e-f41529639dd2/t0E33qNEJM.json"
+                src="/animations/animation.json"
                 background="transparent"
                 speed="1"
                 style={{ width: "100%", height: "100%" }}

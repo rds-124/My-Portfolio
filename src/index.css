@@ -537,10 +537,10 @@ All colors MUST be HSL.
 }
 
 .terminal-drag:hover {
-  cursor: url('/navigation-grab.png'), grab;
+  cursor: url('/navigation-grab.avif'), grab;
 }
 
 .terminal-drag:active {
-  cursor: url('/navigation-grab.png'), grabbing;
+  cursor: url('/navigation-grab.avif'), grabbing;
 }
 
