@@ -1,23 +1,23 @@
-// Inside src/hooks/useIsDesktop.ts
+// Inside: src/hooks/useIsDesktop.ts
 
 import { useState, useEffect } from 'react';
 
+// This hook returns 'true' if the window width is 768px or more
 export const useIsDesktop = () => {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      // We consider it a desktop if the width is 768px or more
-      setIsDesktop(window.innerWidth >= 768); 
+      setIsDesktop(window.innerWidth >= 768);
     };
 
-    // Run on initial load
-    handleResize(); 
+    // Set the initial value
+    handleResize();
     
-    // Add event listener for window resize
+    // Add listener for changes
     window.addEventListener('resize', handleResize);
 
-    // Cleanup listener on component unmount
+    // Clean up listener
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
