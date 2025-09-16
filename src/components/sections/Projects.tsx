@@ -16,12 +16,23 @@ import SplitText from "@/components/SplitText";
 // --- Project Data (No changes here) ---
 const projects = [
   {
-    title: "Zomato Demand & Delivery Dashboard",
+    title: "Customer Churn Prediction & Retention",
+    description:
+    "Built a churn risk model (AUC 0.83) on 7K+ telecom customers and an interactive Power BI simulator, demonstrating up to 6x ROI from targeted retention.",
+    tech: ["Python", "SQL", "Power BI"],
+    live: "",
+    repo: "https://github.com/rds-124/Customer-Churn-Prediction-Retention", // Assuming a placeholder repo link
+    icon: "line",
+    image: "/images/churn.avif",
+  },
+
+  {
+    title: "Zomato Delivery Analytics",
     description:
       "Interactive Power BI dashboard analyzing 50k+ Bangalore restaurant listings. Cleaned and explored data, visualized KPIs with dynamic filters.",
-    tech: ["Power BI", "Python", "EDA"],
+    tech: ["Python", "EDA", "Power BI"],
     live: "",
-    repo: "https://github.com/rds-124",
+    repo: "https://github.com/rds-124/Zomato-Delivery-Analytics.git",
     icon: "bar",
     image: "/images/zomato.avif",
   },
@@ -278,20 +289,13 @@ const Projects = () => {
             </div>
           </div>
 
-          {/* --- EXISTING: Desktop Embla Carousel (Hidden on screens smaller than md) --- */}
-          <div className="hidden md:block embla -ml-4" ref={emblaRef}>
-            <div className="embla__container">
-              {projectPairs.map((pair, index) => (
-                <div key={index} className="embla__slide">
-                  <div className="flex flex-col gap-4">
-                    {pair.map((p) => (
-                      <ProjectCard key={p.title} project={p} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* --- Desktop Grid Layout (3 rows) --- */}
+            <div className="hidden md:grid grid-cols-3 gap-6">
+              {projects.map((p) => (
+            <ProjectCard key={p.title} project={p} />
+  ))}
+</div>
+
         </div>
       </section>
     </>
